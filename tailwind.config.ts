@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-export default {
+const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,10 +9,21 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        primary: "rgb(var(--color-primary) / <alpha-value>)",
+        "primary-light": "rgb(var(--color-primary-light) / <alpha-value>)",
+        secondary: "rgb(var(--color-secondary) / <alpha-value>)",
+        "secondary-light": "rgb(var(--color-secondary-light) / <alpha-value>)",
+      },
+      animation: {
+        fadeIn: "fadeIn 0.5s cubic-bezier(0.155, 1.105, 0.295, 1.12) forwards",
+      },
+      transitionTimingFunction: {
+        smooth: "var(--ease-smooth)",
+        spring: "var(--ease-spring)",
       },
     },
   },
   plugins: [],
-} satisfies Config;
+};
+
+export default config;

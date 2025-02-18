@@ -1,21 +1,139 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Colors */
+  --color-primary: oklch(0.278 0.029 255.597);
+  --color-primary-light: oklch(0.378 0.029 255.597);
+  --color-secondary: oklch(0.278 0.029 320);
+  --color-secondary-light: oklch(0.378 0.029 320);
+  
+  /* Typography */
+  --font-display: "Inter", sans-serif;
+  
+  /* Animations */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.155, 1.105, 0.295, 1.12);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  body {
+    height: 100vh;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  section {
+    min-height: 100vh;
+    width: 100%;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .animate-fadeIn {
+    animation: fadeIn 0.5s var(--ease-spring) forwards;
+  }
+
+  .glass {
+    background: color-mix(in oklab, var(--color-primary) 5%, transparent);
+    backdrop-filter: blur(10px);
+    border: 1px solid color-mix(in oklab, var(--color-primary) 10%, transparent);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  }
+
+  .glow-bg {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glow-bg::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 30%,
+      transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    animation: glow 8s ease-in-out infinite alternate;
+  }
+
+  .glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.5;
+    animation: float 10s ease-in-out infinite;
+  }
+
+  @keyframes glow {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      transform: translateY(-20px) scale(1.1);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  nav a.active {
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+
+  nav a.active span {
+    transform: scaleX(1) !important;
+  }
+
+  nav a:hover {
+    transform: translateY(-1px);
+  }
+}
+
+@layer utilities {
+  @media (prefers-color-scheme: dark) {
+    @theme {
+      --color-primary: oklch(0.878 0.029 255.597);
+      --color-primary-light: oklch(0.978 0.029 255.597);
+      --color-secondary: oklch(0.878 0.029 320);
+      --color-secondary-light: oklch(0.978 0.029 320);
+    }
+  }
 }
