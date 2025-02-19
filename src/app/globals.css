@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @theme {
   /* Colors */
@@ -25,8 +28,10 @@
   body {
     height: 100vh;
     overflow-y: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    overflow-x: hidden;
+    overscroll-behavior-y: none;
+    position: relative;
+    scroll-behavior: smooth;
   }
 
   body::-webkit-scrollbar {
@@ -36,24 +41,24 @@
   section {
     min-height: 100vh;
     width: 100%;
+    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
   }
 }
 
 @layer components {
   .animate-fadeIn {
-    animation: fadeIn 0.5s var(--ease-spring) forwards;
+    animation: fadeIn 0.8s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
   }
 
   .glass {
-    background: color-mix(in oklab, var(--color-primary) 5%, transparent);
+    background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
-    border: 1px solid color-mix(in oklab, var(--color-primary) 10%, transparent);
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .glow-bg {
     position: relative;
-    overflow: hidden;
+    isolation: isolate;
   }
 
   .glow-bg::before {
@@ -76,9 +81,10 @@
   .glow-orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(60px);
+    filter: blur(80px);
     opacity: 0.5;
-    animation: float 10s ease-in-out infinite;
+    mix-blend-mode: multiply;
+    transition: all 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
   }
 
   @keyframes glow {
@@ -94,12 +100,36 @@
   }
 
   @keyframes float {
-    0%, 100% {
-      transform: translateY(0) scale(1);
+    0% {
+      transform: translate(0, 0) rotate(0deg);
     }
     50% {
-      transform: translateY(-20px) scale(1.1);
+      transform: translate(30px, 20px) rotate(5deg);
     }
+    100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+  }
+
+  @keyframes float-delayed {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+      transform: translate(-30px, -20px) rotate(-5deg);
+    }
+    100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+  }
+
+  .animate-float {
+    animation: float 20s ease-in-out infinite;
+  }
+
+  .animate-float-delayed {
+    animation: float-delayed 20s ease-in-out infinite;
+    animation-delay: -10s;
   }
 
   @keyframes fadeIn {
@@ -113,6 +143,10 @@
     }
   }
 
+  nav a {
+    transition: all 0.3s ease-in-out;
+  }
+
   nav a.active {
     color: #1a1a1a;
     font-weight: 600;
@@ -120,6 +154,7 @@
 
   nav a.active span {
     transform: scaleX(1) !important;
+    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   }
 
   nav a:hover {
@@ -136,4 +171,17 @@
       --color-secondary-light: oklch(0.978 0.029 320);
     }
   }
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  position: fixed;
+  width: 100%;
+  height: 100%;
 }
