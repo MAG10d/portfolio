@@ -8,16 +8,29 @@ export default function Navigation() {
   useEffect(() => {
     const handleScroll = () => {
       const sections = document.querySelectorAll('section');
+      let currentSection = '';
+      
       sections.forEach((section) => {
         const rect = section.getBoundingClientRect();
-        if (rect.top >= -window.innerHeight/2 && rect.top <= window.innerHeight/2) {
-          const id = section.id;
-          setActiveSection(id);
+        const sectionHeight = section.offsetHeight;
+        const viewportHeight = window.innerHeight;
+        
+        // 計算section在視窗中的可見比例
+        const visibleHeight = Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0);
+        const visibilityRatio = visibleHeight / sectionHeight;
+        
+        if (visibilityRatio > 0.5) {
+          currentSection = section.id;
         }
       });
+      
+      if (currentSection) {
+        setActiveSection(currentSection);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // 初始化時執行一次
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 

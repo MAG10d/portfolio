@@ -21,44 +21,53 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    height: 100vh;
-    overflow: hidden;
   }
 
   body {
-    height: 100vh;
-    overflow-y: auto;
     overflow-x: hidden;
-    overscroll-behavior-y: none;
     position: relative;
     scroll-behavior: smooth;
-  }
-
-  body::-webkit-scrollbar {
-    display: none;
   }
 
   section {
     min-height: 100vh;
     width: 100%;
-    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+    position: relative;
+    z-index: 1;
+    padding: 5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  @media (max-height: 700px) {
+    section {
+      padding: 4rem 1rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    section {
+      padding: 4rem 0.5rem;
+    }
   }
 }
 
 @layer components {
   .animate-fadeIn {
-    animation: fadeIn 0.8s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+    animation: fadeIn 0.5s var(--ease-spring) forwards;
   }
 
   .glass {
-    background: rgba(255, 255, 255, 0.2);
+    background: color-mix(in oklab, var(--color-primary) 5%, transparent);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid color-mix(in oklab, var(--color-primary) 10%, transparent);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   }
 
   .glow-bg {
     position: relative;
-    isolation: isolate;
+    overflow: hidden;
   }
 
   .glow-bg::before {
@@ -81,84 +90,9 @@
   .glow-orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
+    filter: blur(60px);
     opacity: 0.5;
-    mix-blend-mode: multiply;
-    transition: all 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-  }
-
-  @keyframes glow {
-    0% {
-      transform: translate(-50%, -50%) scale(1);
-    }
-    50% {
-      transform: translate(-50%, -50%) scale(1.2);
-    }
-    100% {
-      transform: translate(-50%, -50%) scale(1);
-    }
-  }
-
-  @keyframes float {
-    0% {
-      transform: translate(0, 0) rotate(0deg);
-    }
-    50% {
-      transform: translate(30px, 20px) rotate(5deg);
-    }
-    100% {
-      transform: translate(0, 0) rotate(0deg);
-    }
-  }
-
-  @keyframes float-delayed {
-    0% {
-      transform: translate(0, 0) rotate(0deg);
-    }
-    50% {
-      transform: translate(-30px, -20px) rotate(-5deg);
-    }
-    100% {
-      transform: translate(0, 0) rotate(0deg);
-    }
-  }
-
-  .animate-float {
-    animation: float 20s ease-in-out infinite;
-  }
-
-  .animate-float-delayed {
-    animation: float-delayed 20s ease-in-out infinite;
-    animation-delay: -10s;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  nav a {
-    transition: all 0.3s ease-in-out;
-  }
-
-  nav a.active {
-    color: #1a1a1a;
-    font-weight: 600;
-  }
-
-  nav a.active span {
-    transform: scaleX(1) !important;
-    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  }
-
-  nav a:hover {
-    transform: translateY(-1px);
+    animation: float 10s ease-in-out infinite;
   }
 }
 

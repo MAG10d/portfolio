@@ -166,11 +166,11 @@ export default function Home() {
           {/* 副標題 */}
           <p className="text-lg sm:text-xl md:text-2xl max-w-2xl mx-auto text-[#1a1a1a]/80 leading-relaxed relative group">
             <span className="relative inline-block group-hover:transform group-hover:translate-y-[-2px] transition-transform duration-300">
-              Software Engineer specializing in full-stack development and AI integration.
+              Software Engineering student exploring full-stack development and AI technologies.
             </span>
             <br />
             <span className="relative inline-block group-hover:transform group-hover:translate-y-[-2px] transition-transform duration-300 delay-75">
-              Passionate about creating innovative solutions and exceptional user experiences.
+              Learning to build meaningful applications with modern development tools.
             </span>
           </p>
 
@@ -331,17 +331,17 @@ export default function Home() {
           <div className="glow-orb w-96 h-96 bottom-[-20%] left-[-10%] bg-[#FFF5E1]" />
         </div>
 
-        <div className="max-w-6xl mx-auto w-full animate-fadeIn">
-          <div className="text-center mb-12">
-            <h2 className="text-5xl sm:text-6xl font-bold text-[#1a1a1a]">Resume</h2>
-            <p className="text-lg sm:text-xl mt-4 text-[#1a1a1a] opacity-80">
+        <div className="max-w-6xl mx-auto w-full animate-fadeIn px-4 py-16 min-h-screen overflow-y-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#1a1a1a]">Resume</h2>
+            <p className="text-base sm:text-lg mt-2 text-[#1a1a1a] opacity-80">
               Education and Professional Experience
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <div className="p-8 rounded-2xl hover:scale-[1.02] transition-transform bg-white/50 hover:bg-white/80">
-              <h3 className="text-2xl font-bold text-[#1a1a1a] mb-4">Education</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 mb-8">
+            <div className="p-4 sm:p-8 rounded-2xl hover:scale-[1.02] transition-transform bg-white/50 hover:bg-white/80">
+              <h3 className="text-xl sm:text-2xl font-bold text-[#1a1a1a] mb-4">Education</h3>
               <div className="space-y-4">
                 <div>
                   <h4 className="font-medium text-[#1a1a1a]">Higher Diploma in Software Engineering</h4>
@@ -351,8 +351,8 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="p-8 rounded-2xl hover:scale-[1.02] transition-transform bg-white/50 hover:bg-white/80">
-              <h3 className="text-2xl font-bold text-[#1a1a1a] mb-4">Languages</h3>
+            <div className="p-4 sm:p-8 rounded-2xl hover:scale-[1.02] transition-transform bg-white/50 hover:bg-white/80">
+              <h3 className="text-xl sm:text-2xl font-bold text-[#1a1a1a] mb-4">Languages</h3>
               <div className="space-y-2">
                 <p className="text-[#1a1a1a]">English</p>
                 <p className="text-[#1a1a1a]">Cantonese</p>
@@ -362,8 +362,8 @@ export default function Home() {
           </div>
 
           {/* 證書部分 */}
-          <div className="p-8 rounded-2xl hover:scale-[1.02] transition-transform bg-white/50 hover:bg-white/80 mb-12">
-            <h3 className="text-2xl font-bold text-[#1a1a1a] mb-4">Certifications</h3>
+          <div className="p-4 sm:p-8 rounded-2xl hover:scale-[1.02] transition-transform bg-white/50 hover:bg-white/80 mb-8">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#1a1a1a] mb-4">Certifications</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {certificates.map((cert) => (
                 <button
@@ -378,34 +378,12 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 證書 Modal */}
-          {selectedCertificate && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-              <div className="bg-white rounded-2xl w-[95%] h-[95%] max-w-5xl relative">
-                <button
-                  onClick={() => setSelectedCertificate(null)}
-                  className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 z-50 bg-white rounded-full p-2"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-                <iframe
-                  src={`${certificates.find(cert => cert.id === selectedCertificate)?.pdf}#toolbar=0&navpanes=0&scrollbar=0`}
-                  className="w-full h-full rounded-2xl"
-                  style={{ width: '100%', height: '100%' }}
-                  frameBorder="0"
-                />
-              </div>
-            </div>
-          )}
-
-          <div className="flex justify-center gap-6">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mt-4">
             <a
               href="/LauKwanTingResume.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-              className="inline-flex items-center px-8 py-4 rounded-full glass text-[#1a1a1a] hover:scale-105 hover:shadow-lg transition-all duration-300 font-medium group"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 rounded-full glass text-[#1a1a1a] hover:scale-105 hover:shadow-lg transition-all duration-300 font-medium group"
             >
               Preview Resume
               <svg 
@@ -432,7 +410,7 @@ export default function Home() {
             <a
               href="/LauKwanTingResume.pdf"
               download
-              className="inline-flex items-center px-8 py-4 rounded-full bg-gradient-to-r from-[#1a1a1a] to-[#4a4a4a] text-white hover:scale-105 hover:shadow-lg transition-all duration-300 font-medium group"
+              className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-gradient-to-r from-[#1a1a1a] to-[#4a4a4a] text-white hover:scale-105 hover:shadow-lg transition-all duration-300 font-medium group"
             >
               Download Resume
               <svg 
@@ -450,8 +428,30 @@ export default function Home() {
               </svg>
             </a>
           </div>
-    </div>
+        </div>
       </section>
+
+      {/* 證書 Modal */}
+      {selectedCertificate && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+          <div className="bg-white rounded-2xl w-[95%] h-[95%] max-w-5xl relative">
+            <button
+              onClick={() => setSelectedCertificate(null)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 z-50 bg-white rounded-full p-2"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <iframe
+              src={`${certificates.find(cert => cert.id === selectedCertificate)?.pdf}#toolbar=0&navpanes=0&scrollbar=0`}
+              className="w-full h-full rounded-2xl"
+              style={{ width: '100%', height: '100%' }}
+              frameBorder="0"
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 }
