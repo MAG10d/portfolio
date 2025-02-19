@@ -7,7 +7,7 @@ export default function Home() {
   const [isScrolling, setIsScrolling] = useState(false);
   const [lastScrollTime, setLastScrollTime] = useState(0);
   const [selectedCertificate, setSelectedCertificate] = useState<string | null>(null);
-  const scrollCooldown = 500; // 增加冷卻時間以確保更流暢的滾動
+  const scrollCooldown = 500;
 
   const certificates = [
     {
@@ -38,53 +38,43 @@ export default function Home() {
 
   useEffect(() => {
     const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('nav a');
+    let isScrolling = false;
     let scrollTimeout: NodeJS.Timeout;
     
-    const updateNavigation = () => {
-      sections.forEach((section, index) => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top >= -50 && rect.top <= 50) {
-          navLinks.forEach(link => {
-            link.classList.remove('active');
-            const span = link.querySelector('span');
-            if (span) span.style.transform = 'scaleX(0)';
-          });
-          const currentLink = navLinks[index];
-          currentLink.classList.add('active');
-          const span = currentLink.querySelector('span');
-          if (span) span.style.transform = 'scaleX(1)';
-          setCurrentSection(index);
-        }
+    const scrollToSection = (index: number) => {
+      if (isScrolling) return;
+      
+      isScrolling = true;
+      setCurrentSection(index);
+      
+      clearTimeout(scrollTimeout);
+      
+      const targetSection = sections[index];
+      targetSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
       });
-    };
-    
-    const handleScroll = (delta: number) => {
-      const now = Date.now();
-      if (isScrolling || now - lastScrollTime < scrollCooldown) return;
       
-      const direction = delta > 0 ? 1 : -1;
-      const nextSection = currentSection + direction;
-      
-      if (nextSection >= 0 && nextSection < sections.length) {
-        setIsScrolling(true);
-        setLastScrollTime(now);
-        setCurrentSection(nextSection);
-        
-        sections[nextSection].scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-        
-        scrollTimeout = setTimeout(() => {
-          setIsScrolling(false);
-        }, scrollCooldown);
-      }
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+      }, scrollCooldown);
     };
 
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
-      handleScroll(e.deltaY);
+      
+      if (isScrolling) return;
+      
+      const now = Date.now();
+      if (now - lastScrollTime < scrollCooldown) return;
+      setLastScrollTime(now);
+      
+      const direction = e.deltaY > 0 ? 1 : -1;
+      const nextSection = currentSection + direction;
+      
+      if (nextSection >= 0 && nextSection < sections.length) {
+        scrollToSection(nextSection);
+      }
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -96,13 +86,7 @@ export default function Home() {
         const nextSection = currentSection + direction;
         
         if (nextSection >= 0 && nextSection < sections.length) {
-          setIsScrolling(true);
-          setLastScrollTime(Date.now());
-          setCurrentSection(nextSection);
-          sections[nextSection].scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
+          scrollToSection(nextSection);
         }
       }
     };
@@ -119,7 +103,6 @@ export default function Home() {
 
     window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('scroll', updateNavigation);
     window.addEventListener('resize', handleResize);
     
     handleResize();
@@ -127,11 +110,10 @@ export default function Home() {
     return () => {
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('scroll', updateNavigation);
       window.removeEventListener('resize', handleResize);
       clearTimeout(scrollTimeout);
     };
-  }, [currentSection, lastScrollTime, scrollCooldown]);
+  }, [currentSection, lastScrollTime]);
 
   // 修改所有 section 的 className
   const sectionClassName = "min-h-screen relative flex flex-col items-center justify-center p-4 glow-bg";
