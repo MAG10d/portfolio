@@ -7,8 +7,7 @@ export default function Home() {
   const [isScrolling, setIsScrolling] = useState(false);
   const [lastScrollTime, setLastScrollTime] = useState(0);
   const [selectedCertificate, setSelectedCertificate] = useState<string | null>(null);
-  const scrollThreshold = 30; // 降低滾動閾值，使滾動更靈敏
-  const scrollCooldown = 500; // 減少滾動冷卻時間至 500 毫秒
+  const scrollCooldown = 500; // 增加冷卻時間以確保更流暢的滾動
 
   const certificates = [
     {
@@ -40,7 +39,6 @@ export default function Home() {
   useEffect(() => {
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('nav a');
-    let isScrolling = false;
     let scrollTimeout: NodeJS.Timeout;
     
     const updateNavigation = () => {
@@ -61,40 +59,32 @@ export default function Home() {
       });
     };
     
-    const scrollToSection = (index: number) => {
-      if (isScrolling) return;
+    const handleScroll = (delta: number) => {
+      const now = Date.now();
+      if (isScrolling || now - lastScrollTime < scrollCooldown) return;
       
-      isScrolling = true;
-      setCurrentSection(index);
+      const direction = delta > 0 ? 1 : -1;
+      const nextSection = currentSection + direction;
       
-      clearTimeout(scrollTimeout);
-      
-      const targetSection = sections[index];
-      targetSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
-      
-      scrollTimeout = setTimeout(() => {
-        isScrolling = false;
-      }, 800);
+      if (nextSection >= 0 && nextSection < sections.length) {
+        setIsScrolling(true);
+        setLastScrollTime(now);
+        setCurrentSection(nextSection);
+        
+        sections[nextSection].scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+        
+        scrollTimeout = setTimeout(() => {
+          setIsScrolling(false);
+        }, scrollCooldown);
+      }
     };
 
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
-      
-      if (isScrolling) return;
-      
-      const now = Date.now();
-      if (now - lastScrollTime < scrollCooldown) return;
-      setLastScrollTime(now);
-      
-      const direction = e.deltaY > 0 ? 1 : -1;
-      const nextSection = currentSection + direction;
-      
-      if (nextSection >= 0 && nextSection < sections.length) {
-        scrollToSection(nextSection);
-      }
+      handleScroll(e.deltaY);
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -106,7 +96,13 @@ export default function Home() {
         const nextSection = currentSection + direction;
         
         if (nextSection >= 0 && nextSection < sections.length) {
-          scrollToSection(nextSection);
+          setIsScrolling(true);
+          setLastScrollTime(Date.now());
+          setCurrentSection(nextSection);
+          sections[nextSection].scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
         }
       }
     };
