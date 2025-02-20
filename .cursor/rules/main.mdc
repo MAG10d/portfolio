@@ -1,0 +1,105 @@
+---
+description: E-portfolio Project Rules and Guidelines
+globs: ["**/*"]
+---
+
+# E-portfolio 項目規則
+
+## Website Content Language
+- All website content must be in English
+- Including all sections, buttons, and navigation items
+- Error messages and notifications in English
+- Meta tags and SEO content in English
+
+## 項目結構
+- 使用 Next.js 14 框架
+- TypeScript 作為主要開發語言
+- Tailwind CSS 用於樣式設計
+- 適度使用動畫效果（React Bits）
+
+## 核心功能需求
+
+### 1. About Me
+- Personal Introduction
+- Skills & Expertise
+- Educational Background
+- Professional Certifications
+
+### 2. Career Goals & Plans
+- Short-term Objectives
+- Long-term Vision
+- Professional Development Path
+
+### 3. CV/Resume
+- Downloadable PDF format
+- Professional Layout
+- Updated Contact Information
+
+## 技術規範
+
+### 代碼風格
+- 使用 ESLint 進行代碼檢查
+- 遵循 TypeScript 嚴格模式
+- 組件使用 Function Component
+- 使用 CSS Modules 或 Tailwind CSS
+
+### 性能優化
+- 圖片優化使用 Next.js Image 組件
+- 實現懶加載
+- 優化首次加載性能
+- 確保移動端響應式設計
+
+### 動畫規範
+- 動畫時長控制在 1 秒以內
+- 避免過度使用動畫效果
+- 確保不影響核心功能
+- 優先使用 CSS transforms
+
+### SEO 優化
+- 適當的 meta 標籤
+- 語義化 HTML
+- 圖片 alt 文字
+- 適當的標題層級
+
+## 部署要求
+- 使用 Vercel 平台
+- 配置自定義域名 (lgls.xyz)
+- 確保 SSL 證書
+- 實現自動化部署
+
+## 代碼提交規範
+- 清晰的提交信息
+- 功能分支開發
+- 定期代碼備份
+- 版本控制規範
+
+## 文檔要求
+- 項目 README 文件
+- 代碼註釋規範
+- API 文檔（如需要）
+- 部署文檔
+
+## Content Sections Structure
+
+### Home Page
+- Professional headline
+- Brief introduction
+- Call-to-action buttons
+
+### About Me Page
+- Professional summary
+- Key skills and competencies
+- Educational achievements
+- Professional certifications
+
+### Career Goals Page
+- Career objectives
+- Professional aspirations
+- Development roadmap
+- Industry focus
+
+### Resume/CV Page
+- Professional experience
+- Technical skills
+- Education history
+- Downloadable PDF version
