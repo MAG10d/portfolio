@@ -22,6 +22,7 @@ import {
   SiLinux,
   SiAndroid
 } from 'react-icons/si';
+import Image from 'next/image';
 
 export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
@@ -258,9 +259,11 @@ export default function Home() {
             {/* AI E-commerce Platform */}
               <div className="group relative bg-white/60 backdrop-blur-sm rounded-xl p-4 sm:p-5 hover:bg-white/70 transition-all duration-300 hover:shadow-lg flex-1">
                 <div className="aspect-[16/9] sm:aspect-[3/1] overflow-hidden rounded-lg mb-3">
-                  <img 
+                  <Image 
                     src="/ia.png" 
                     alt="AI E-commerce Platform"
+                    width={800}
+                    height={400}
                     className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -285,9 +288,11 @@ export default function Home() {
               {/* Qwqcoin */}
               <div className="group relative bg-white/60 backdrop-blur-sm rounded-xl p-4 sm:p-5 hover:bg-white/70 transition-all duration-300 hover:shadow-lg flex-1">
                 <div className="aspect-[16/9] sm:aspect-[3/1] overflow-hidden rounded-lg mb-3">
-                  <img 
+                  <Image 
                     src="/spigot.png" 
                     alt="Qwqcoin"
+                    width={800}
+                    height={400}
                     className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -346,7 +351,7 @@ export default function Home() {
                   {showDemoTip && (
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover/iframe:opacity-100 transition-opacity duration-300 z-20">
                       <div className="text-white text-center px-4 flex flex-col items-center gap-3">
-                        <p className="text-sm max-w-md">You're previewing the demo. Move your cursor away to continue browsing the portfolio.</p>
+                        <p className="text-sm max-w-md">You&apos;re previewing the demo. Move your cursor away to continue browsing the portfolio.</p>
                         <button
                           onClick={(e) => {
                             e.preventDefault();
