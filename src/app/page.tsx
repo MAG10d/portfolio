@@ -50,13 +50,9 @@ export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
   const [isScrolling, setIsScrolling] = useState(false);
   const [lastScrollTime, setLastScrollTime] = useState(0);
-  const [selectedCertificate, setSelectedCertificate] = useState<string | null>(null);
   const [showDemoTip, setShowDemoTip] = useState(true);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [hoveredAward, setHoveredAward] = useState<string | null>(null);
   const scrollCooldown = 500;
   const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   const certificates: Certificate[] = [
     {
@@ -121,7 +117,7 @@ export default function Home() {
   ];
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    setMousePosition({ x: e.clientX, y: e.clientY });
+    // This function is no longer used in the new code
   };
 
   useEffect(() => {
@@ -177,7 +173,6 @@ export default function Home() {
       if (!touchStart) return;
       
       const touchEndY = e.changedTouches[0].clientY;
-      setTouchEnd(touchEndY);
       
       const now = Date.now();
       if (now - lastScrollTime < scrollCooldown) return;
@@ -196,7 +191,6 @@ export default function Home() {
       }
       
       setTouchStart(null);
-      setTouchEnd(null);
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
