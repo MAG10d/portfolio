@@ -116,10 +116,6 @@ export default function Home() {
     }
   ];
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    // This function is no longer used in the new code
-  };
-
   useEffect(() => {
     const sections = document.querySelectorAll('section');
     let isScrolling = false;
@@ -726,7 +722,7 @@ export default function Home() {
       </section>
 
       {/* Awards Section */}
-      <section id="awards" className={sectionClassName} onMouseMove={handleMouseMove}>
+      <section id="awards" className={sectionClassName}>
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-br from-[#FFF5E1] to-[#FFE4E1] opacity-40" />
           <div className="glow-orb w-64 sm:w-96 h-64 sm:h-96 top-[-20%] right-[-10%] bg-[#FFE4E1]" />
