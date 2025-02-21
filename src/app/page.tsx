@@ -24,46 +24,105 @@ import {
 } from 'react-icons/si';
 import Image from 'next/image';
 
+interface Certificate {
+  id: string;
+  title: string;
+  url: string;
+  pdf: string;
+}
+
+interface Language {
+  name: string;
+  level: string;
+  icon: string;
+}
+
+interface Education {
+  id: string;
+  title: string;
+  organization: string;
+  year: string;
+  description: string;
+  category: string;
+}
+
 export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
   const [isScrolling, setIsScrolling] = useState(false);
   const [lastScrollTime, setLastScrollTime] = useState(0);
   const [selectedCertificate, setSelectedCertificate] = useState<string | null>(null);
   const [showDemoTip, setShowDemoTip] = useState(true);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [hoveredAward, setHoveredAward] = useState<string | null>(null);
   const scrollCooldown = 500;
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
-  const certificates = [
+  const certificates: Certificate[] = [
     {
       id: 'gold-award-2024',
       title: 'Gold Award - Project Orion Hackathon',
       url: 'https://askit.com.hk/askit-x-ive-summer-hackathon-2024',
-      pdf: '/digital_credentials.pdf'
+      pdf: '/digital_credentials conv 1.png'
     },
     {
       id: 'd202ba186a0e',
       title: 'Software Engineer',
       url: 'https://www.hackerrank.com/certificates/d202ba186a0e',
-      pdf: '/software_engineer certificate.pdf'
+      pdf: '/software_engineer certificate conv 1.png'
     },
     {
       id: '5c5e5be13c03',
       title: 'Software Engineer Intern',
       url: 'https://www.hackerrank.com/certificates/5c5e5be13c03',
-      pdf: '/software_engineer_intern certificate.pdf'
+      pdf: '/software_engineer_intern certificate conv 1.png'
     },
     {
       id: '6ecc4bb9862e',
       title: 'Frontend Developer (React)',
       url: 'https://www.hackerrank.com/certificates/6ecc4bb9862e',
-      pdf: '/frontend_developer_react certificate.pdf'
+      pdf: '/frontend_developer_react certificate conv 1.png'
     },
     {
       id: '4d51500dac85',
       title: 'SQL (Basic)',
       url: 'https://www.hackerrank.com/certificates/4d51500dac85',
-      pdf: '/sql_basic certificate.pdf'
+      pdf: '/sql_basic certificate conv 1.png'
     }
   ];
+
+  const education: Education[] = [
+    {
+      id: 'education',
+      title: 'Higher Diploma in Software Engineering',
+      organization: 'Hong Kong Institute of Information Technology (HKIIT)',
+      year: '2023 - Present',
+      description: 'Studying software engineering with focus on modern development practices and technologies.',
+      category: 'Education'
+    }
+  ];
+
+  const languages: Language[] = [
+    {
+      name: 'English',
+      level: '',
+      icon: '🇬🇧'
+    },
+    {
+      name: 'Cantonese',
+      level: '',
+      icon: '🇭🇰'
+    },
+    {
+      name: 'Mandarin',
+      level: '',
+      icon: '🇨🇳'
+    }
+  ];
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    setMousePosition({ x: e.clientX, y: e.clientY });
+  };
 
   useEffect(() => {
     const sections = document.querySelectorAll('section');
@@ -106,6 +165,40 @@ export default function Home() {
       }
     };
 
+    const handleTouchStart = (e: TouchEvent) => {
+      setTouchStart(e.touches[0].clientY);
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (!touchStart) return;
+      
+      const touchEndY = e.changedTouches[0].clientY;
+      setTouchEnd(touchEndY);
+      
+      const now = Date.now();
+      if (now - lastScrollTime < scrollCooldown) return;
+      setLastScrollTime(now);
+      
+      const touchDiff = touchStart - touchEndY;
+      const minSwipeDistance = 50;
+      
+      if (Math.abs(touchDiff) > minSwipeDistance) {
+        const direction = touchDiff > 0 ? 1 : -1;
+        const nextSection = currentSection + direction;
+        
+        if (nextSection >= 0 && nextSection < sections.length) {
+          scrollToSection(nextSection);
+        }
+      }
+      
+      setTouchStart(null);
+      setTouchEnd(null);
+    };
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (isScrolling) return;
       
@@ -133,6 +226,9 @@ export default function Home() {
     window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('resize', handleResize);
+    window.addEventListener('touchstart', handleTouchStart, { passive: false });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd);
     
     handleResize();
     
@@ -140,9 +236,12 @@ export default function Home() {
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
       clearTimeout(scrollTimeout);
     };
-  }, [currentSection, lastScrollTime]);
+  }, [currentSection, lastScrollTime, touchStart]);
 
   // 修改所有 section 的 className
   const sectionClassName = "min-h-screen relative flex flex-col items-center justify-center p-4 glow-bg";
@@ -242,6 +341,96 @@ export default function Home() {
           <div className="w-8 h-px bg-gray-300" />
           <span>Scroll to explore</span>
           <div className="w-8 h-px bg-gray-300" />
+        </div>
+      </section>
+
+      {/* About Me Section */}
+      <section id="about" className={sectionClassName}>
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#E6E6FA] to-[#F8F8FF] opacity-40" />
+          <div className="glow-orb w-64 sm:w-96 h-64 sm:h-96 top-[-20%] left-[-10%] bg-[#FFD7BA]" />
+          <div className="glow-orb w-64 sm:w-96 h-64 sm:h-96 bottom-[-20%] right-[-10%] bg-[#FFE4E1]" />
+        </div>
+
+        <div className="max-w-6xl mx-auto w-full px-4 sm:px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold text-[#1a1a1a] mb-4">
+              <span className="relative inline-block">
+                About Me
+                <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[#FF9B7B] to-transparent rounded-full" />
+              </span>
+            </h2>
+            <p className="text-lg sm:text-xl text-[#1a1a1a]/80 max-w-3xl mx-auto">
+              Passionate software engineering student with a focus on creating innovative solutions
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Personal Introduction */}
+            <div className="bg-white/60 backdrop-blur-sm p-6 rounded-2xl hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+              <h3 className="text-2xl font-bold text-[#1a1a1a] mb-4 flex items-center gap-3">
+                <svg className="w-6 h-6 text-[#FF9B7B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                Personal Introduction
+              </h3>
+              <div className="space-y-4 text-[#1a1a1a]/80">
+                <p>
+                  Hi, I&apos;m Lau Kwan Ting, a dedicated software engineering student at HKIIT. My journey in technology began with a fascination for problem-solving and creating impactful solutions.
+                </p>
+                <p>
+                  I specialize in full-stack development and have a growing interest in AI technologies. My experience spans from web development to game plugins, always focusing on delivering high-quality, user-centric solutions.
+                </p>
+                <p>
+                  Outside of coding, I&apos;m an avid learner who enjoys exploring new technologies and contributing to open-source projects. I believe in the power of technology to create positive change in the world.
+                </p>
+              </div>
+            </div>
+
+            {/* Career Goals */}
+            <div className="bg-white/60 backdrop-blur-sm p-6 rounded-2xl hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+              <h3 className="text-2xl font-bold text-[#1a1a1a] mb-4 flex items-center gap-3">
+                <svg className="w-6 h-6 text-[#FF9B7B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                Career Goals & Plan
+              </h3>
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-lg font-semibold text-[#1a1a1a] mb-2">Short-term Goals (1-2 years)</h4>
+                  <ul className="list-disc list-inside space-y-2 text-[#1a1a1a]/80">
+                    <li>Complete Higher Diploma in Software Engineering with distinction</li>
+                    <li>Gain practical experience through internships in software development</li>
+                    <li>Build a strong portfolio of full-stack web applications</li>
+                    <li>Obtain advanced certifications in cloud technologies</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold text-[#1a1a1a] mb-2">Long-term Goals (3-5 years)</h4>
+                  <ul className="list-disc list-inside space-y-2 text-[#1a1a1a]/80">
+                    <li>Become a senior full-stack developer</li>
+                    <li>Lead development teams on significant projects</li>
+                    <li>Contribute to innovative AI-powered solutions</li>
+                    <li>Start a tech consultancy focusing on AI integration</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold text-[#1a1a1a] mb-2">Development Plan</h4>
+                  <div className="space-y-3 text-[#1a1a1a]/80">
+                    <p>
+                      My development plan focuses on continuous learning and practical application:
+                    </p>
+                    <ul className="list-disc list-inside space-y-2">
+                      <li>Regular participation in hackathons and coding competitions</li>
+                      <li>Contributing to open-source projects</li>
+                      <li>Taking advanced courses in AI and cloud computing</li>
+                      <li>Building a professional network in the tech community</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -542,149 +731,144 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Resume Section */}
-      <section id="resume" className="min-h-screen relative flex flex-col items-center justify-center overflow-x-hidden">
+      {/* Awards Section */}
+      <section id="awards" className={sectionClassName} onMouseMove={handleMouseMove}>
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-br from-[#FFF5E1] to-[#FFE4E1] opacity-40" />
           <div className="glow-orb w-64 sm:w-96 h-64 sm:h-96 top-[-20%] right-[-10%] bg-[#FFE4E1]" />
           <div className="glow-orb w-64 sm:w-96 h-64 sm:h-96 bottom-[-20%] left-[-10%] bg-[#FFF5E1]" />
         </div>
 
-        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 relative z-10 py-8">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#1a1a1a] mb-2">Resume</h2>
-            <p className="text-sm sm:text-base text-[#1a1a1a]/80">
-              Education & Professional Experience
-            </p>
+        <div className="max-w-6xl mx-auto w-full px-4 sm:px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold text-[#1a1a1a] mb-4">
+              <span className="relative inline-block">
+                Education & Languages
+                <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[#FF9B7B] to-transparent rounded-full" />
+              </span>
+            </h2>
           </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-8">
-            <div className="p-4 sm:p-6 rounded-xl hover:scale-[1.02] transition-transform bg-white/60 backdrop-blur-sm hover:bg-white/70">
-              <h3 className="text-lg sm:text-xl font-bold text-[#1a1a1a] mb-4">Education</h3>
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-medium text-[#1a1a1a]">Higher Diploma in Software Engineering</h4>
-                  <p className="text-sm text-[#1a1a1a]/70">Hong Kong Institute of Information Technology (HKIIT)</p>
-                  <p className="text-sm text-[#1a1a1a]/60">2023 - Present</p>
+
+          <div className="space-y-12">
+            {/* Education */}
+            <div className="bg-white/60 backdrop-blur-sm p-8 rounded-xl">
+              <div className="flex flex-col lg:flex-row gap-8">
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold text-[#1a1a1a] mb-6">Education</h3>
+                  <div className="space-y-4">
+                    <h4 className="text-xl font-semibold text-[#1a1a1a]">{education[0].title}</h4>
+                    <p className="text-[#1a1a1a]/70">{education[0].organization}</p>
+                    <p className="text-[#1a1a1a]/60">{education[0].year}</p>
+                    <p className="text-[#1a1a1a]/80 mt-4">{education[0].description}</p>
+                  </div>
+                </div>
+
+                {/* Languages Grid */}
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold text-[#1a1a1a] mb-6">Languages</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {languages.map((lang) => (
+                      <div key={lang.name} className="p-4 rounded-lg bg-white/50 hover:bg-white/80 transition-all duration-300">
+                        <div className="flex items-center gap-3">
+                          <span className="text-2xl">{lang.icon}</span>
+                          <div>
+                            <h4 className="font-medium text-[#1a1a1a]">{lang.name}</h4>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="p-4 sm:p-6 rounded-xl hover:scale-[1.02] transition-transform bg-white/60 backdrop-blur-sm hover:bg-white/70">
-              <h3 className="text-lg sm:text-xl font-bold text-[#1a1a1a] mb-4">Languages</h3>
-              <div className="space-y-2">
-                <p className="text-[#1a1a1a]">English</p>
-                <p className="text-[#1a1a1a]">Cantonese</p>
-                <p className="text-[#1a1a1a]">Mandarin</p>
+            {/* Certifications */}
+            <div className="bg-white/60 backdrop-blur-sm p-6 rounded-xl">
+              <h3 className="text-2xl font-bold text-[#1a1a1a] mb-6">Certifications</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                {certificates.map((cert) => (
+                  <a
+                    key={cert.id}
+                    href={cert.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative p-4 rounded-lg bg-white/50 hover:bg-white/80 transition-all duration-300"
+                  >
+                    <div className="text-[#1a1a1a] text-center mb-2">
+                      <h4 className="font-medium text-lg">{cert.title}</h4>
+                      <p className="text-sm text-[#1a1a1a]/60">
+                        {cert.id === 'gold-award-2024' ? 'ASK IT x IVE' : 'HackerRank'}
+                      </p>
+                    </div>
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="relative w-full h-full">
+                        <Image
+                          src={cert.pdf}
+                          alt={cert.title}
+                          fill
+                          className="object-contain rounded-lg"
+                        />
+                      </div>
+                    </div>
+                  </a>
+                ))}
               </div>
             </div>
-          </div>
 
-          {/* 證書部分 */}
-          <div className="p-4 sm:p-6 rounded-xl hover:scale-[1.02] transition-transform bg-white/60 backdrop-blur-sm hover:bg-white/70 mb-8">
-            <h3 className="text-lg sm:text-xl font-bold text-[#1a1a1a] mb-4">Certifications</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {certificates.map((cert) => {
-                const isGoldAward = cert.id === 'gold-award-2024';
-                return (
-                  <button
-                    key={cert.id}
-                    onClick={() => setSelectedCertificate(cert.id)}
-                    className="p-4 rounded-lg bg-white/50 hover:bg-white/80 transition-colors duration-300 text-left w-full"
-                  >
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h4 className="font-medium text-[#1a1a1a]">{cert.title}</h4>
-                        <p className="text-sm text-[#1a1a1a]/70">
-                          {isGoldAward ? 'ASK IT x IVE' : 'HackerRank'}
-                        </p>
-                      </div>
-                      {isGoldAward && (
-                        <span className="px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800 text-xs font-medium">
-                          Gold Award
-                        </span>
-                      )}
-                    </div>
-                  </button>
-                );
-              })}
+            {/* Resume Buttons */}
+            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-4">
+              <a
+                href="/LauKwanTingResume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-white/60 backdrop-blur-sm text-[#1a1a1a] hover:scale-105 hover:shadow-lg transition-all duration-300 font-medium group"
+              >
+                View Resume
+                <svg 
+                  className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  />
+                </svg>
+              </a>
+
+              <a
+                href="/LauKwanTingResume.pdf"
+                download
+                className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-gradient-to-r from-[#1a1a1a] to-[#4a4a4a] text-white hover:scale-105 hover:shadow-lg transition-all duration-300 font-medium group"
+              >
+                Download Resume
+                <svg 
+                  className="ml-2 w-5 h-5 group-hover:translate-y-1 transition-transform" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                  />
+                </svg>
+              </a>
             </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6">
-            <a
-              href="/LauKwanTingResume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-white/60 backdrop-blur-sm text-[#1a1a1a] hover:scale-105 hover:shadow-lg transition-all duration-300 font-medium group"
-            >
-              View Resume
-              <svg 
-                className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                />
-              </svg>
-            </a>
-
-            <a
-              href="/LauKwanTingResume.pdf"
-              download
-              className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-gradient-to-r from-[#1a1a1a] to-[#4a4a4a] text-white hover:scale-105 hover:shadow-lg transition-all duration-300 font-medium group"
-            >
-              Download Resume
-              <svg 
-                className="ml-2 w-5 h-5 group-hover:translate-y-1 transition-transform" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                />
-              </svg>
-            </a>
           </div>
         </div>
       </section>
-
-      {/* 證書 Modal */}
-      {selectedCertificate && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-          <div className="bg-white rounded-2xl w-[95%] h-[95%] max-w-5xl relative">
-            <button
-              onClick={() => setSelectedCertificate(null)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 z-50 bg-white rounded-full p-2"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-            <iframe
-              src={`${certificates.find(cert => cert.id === selectedCertificate)?.pdf}#toolbar=0&navpanes=0&scrollbar=0`}
-              className="w-full h-full rounded-2xl"
-              style={{ width: '100%', height: '100%' }}
-              frameBorder="0"
-            />
-          </div>
-        </div>
-      )}
     </>
   );
 }
