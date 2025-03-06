@@ -20,7 +20,9 @@ import {
   SiMysql,
   SiSqlite,
   SiLinux,
-  SiAndroid
+  SiAndroid,
+  SiDart,
+  SiFlutter
 } from 'react-icons/si';
 import Image from 'next/image';
 
@@ -335,7 +337,7 @@ export default function Home() {
       </section>
 
       {/* About Me Section */}
-      <section id="about" className={sectionClassName}>
+      <section id="about" className={`${sectionClassName} pt-28`}>
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-br from-[#E6E6FA] to-[#F8F8FF] opacity-40" />
           <div className="glow-orb w-64 sm:w-96 h-64 sm:h-96 top-[-20%] left-[-10%] bg-[#FFD7BA]" />
@@ -362,7 +364,7 @@ export default function Home() {
                 <svg className="w-6 h-6 text-[#FF9B7B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                Personal Introduction
+                Self Introduction
               </h3>
               <div className="space-y-4 text-[#1a1a1a]/80">
                 <p>
@@ -377,44 +379,183 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Career Goals */}
+            {/* Personal Competency and Artifacts */}
             <div className="bg-white/60 backdrop-blur-sm p-6 rounded-2xl hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
               <h3 className="text-2xl font-bold text-[#1a1a1a] mb-4 flex items-center gap-3">
                 <svg className="w-6 h-6 text-[#FF9B7B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
-                Career Goals & Plan
+                Personal Competency
               </h3>
               <div className="space-y-6">
                 <div>
-                  <h4 className="text-lg font-semibold text-[#1a1a1a] mb-2">Short-term Goals (1-2 years)</h4>
+                  <h4 className="text-lg font-semibold text-[#1a1a1a] mb-2">Key Competencies</h4>
                   <ul className="list-disc list-inside space-y-2 text-[#1a1a1a]/80">
-                    <li>Complete Higher Diploma in Software Engineering with distinction</li>
-                    <li>Gain practical experience through internships in software development</li>
-                    <li>Build a strong portfolio of full-stack web applications</li>
-                    <li>Obtain advanced certifications in cloud technologies</li>
+                    <li>Full-stack Web Development</li>
+                    <li>AI and Machine Learning</li>
+                    <li>Game Development</li>
+                    <li>Database Management</li>
                   </ul>
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-[#1a1a1a] mb-2">Long-term Goals (3-5 years)</h4>
+                  <h4 className="text-lg font-semibold text-[#1a1a1a] mb-2">Evidence and Achievements</h4>
                   <ul className="list-disc list-inside space-y-2 text-[#1a1a1a]/80">
-                    <li>Become a senior full-stack developer</li>
-                    <li>Lead development teams on significant projects</li>
-                    <li>Contribute to innovative AI-powered solutions</li>
-                    <li>Start a tech consultancy focusing on AI integration</li>
+                    <li>Gold Award in Project Orion Hackathon 2024</li>
+                    <li>HackerRank Certifications in Software Engineering</li>
+                    <li>Developed Qwqcoin - A Minecraft Virtual Currency System</li>
+                    <li>Created Smart Power Box Management System</li>
                   </ul>
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-[#1a1a1a] mb-2">Development Plan</h4>
-                  <div className="space-y-3 text-[#1a1a1a]/80">
-                    <p>
-                      My development plan focuses on continuous learning and practical application:
-                    </p>
-                    <ul className="list-disc list-inside space-y-2">
-                      <li>Regular participation in hackathons and coding competitions</li>
-                      <li>Contributing to open-source projects</li>
-                      <li>Taking advanced courses in AI and cloud computing</li>
-                      <li>Building a professional network in the tech community</li>
+                  <h4 className="text-lg font-semibold text-[#1a1a1a] mb-2">Activities and Competitions</h4>
+                  <ul className="list-disc list-inside space-y-2 text-[#1a1a1a]/80">
+                    <li>Participated in ASK IT x IVE Summer Hackathon 2024</li>
+                    <li>Active contributor to open-source projects</li>
+                    <li>Regular participant in coding competitions</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Career Goals Section */}
+      <section id="career" className={`${sectionClassName} pt-28`}>
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#FFF5E1] to-[#FFE4E1] opacity-40" />
+          <div className="glow-orb w-64 sm:w-96 h-64 sm:h-96 top-[-20%] right-[-10%] bg-[#FFE4E1]" />
+          <div className="glow-orb w-64 sm:w-96 h-64 sm:h-96 bottom-[-20%] left-[-10%] bg-[#FFF5E1]" />
+        </div>
+
+        <div className="max-w-6xl mx-auto w-full px-4 sm:px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold text-[#1a1a1a] mb-4">
+              <span className="relative inline-block">
+                Career Goal & Plan
+                <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[#FF9B7B] to-transparent rounded-full" />
+              </span>
+            </h2>
+          </div>
+
+          <div className="bg-white/60 backdrop-blur-sm p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-all duration-500">
+            <div className="space-y-12">
+              <div className="relative">
+                <div className="absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-[#FF9B7B] to-transparent rounded-full" />
+                <h4 className="text-xl font-semibold text-[#1a1a1a] mb-4 flex items-center gap-3">
+                  <svg className="w-6 h-6 text-[#FF9B7B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  Career Goal
+                </h4>
+                <div className="bg-white/40 backdrop-blur-sm p-4 rounded-xl hover:bg-white/50 transition-all duration-300">
+                  <p className="text-[#1a1a1a]/80 leading-relaxed">
+                    To become a senior full-stack developer at a leading technology company within 5 years, specializing in AI-powered web applications and contributing to innovative solutions that make a positive impact.
+                  </p>
+                </div>
+              </div>
+
+              <div className="relative">
+                <div className="absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-[#FF9B7B] to-transparent rounded-full" />
+                <h4 className="text-xl font-semibold text-[#1a1a1a] mb-4 flex items-center gap-3">
+                  <svg className="w-6 h-6 text-[#FF9B7B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                  Steps to Reach Goal
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="group bg-white/40 backdrop-blur-sm p-4 rounded-xl hover:bg-white/50 transition-all duration-300">
+                    <h5 className="font-medium text-[#1a1a1a] mb-3 flex items-center gap-2">
+                      <svg className="w-5 h-5 text-[#FF9B7B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                      </svg>
+                      Education & Certifications
+                    </h5>
+                    <ul className="list-none space-y-2 text-[#1a1a1a]/80">
+                      {[
+                        'Complete Higher Diploma with distinction',
+                        'Obtain AWS/Google Cloud certifications',
+                        'Complete advanced AI/ML courses'
+                      ].map((item, index) => (
+                        <li key={index} className="flex items-center gap-2 group-hover:translate-x-1 transition-transform duration-300">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#FF9B7B]/60" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="group bg-white/40 backdrop-blur-sm p-4 rounded-xl hover:bg-white/50 transition-all duration-300">
+                    <h5 className="font-medium text-[#1a1a1a] mb-3 flex items-center gap-2">
+                      <svg className="w-5 h-5 text-[#FF9B7B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      Professional Experience
+                    </h5>
+                    <ul className="list-none space-y-2 text-[#1a1a1a]/80">
+                      {[
+                        'Secure internships in software development',
+                        'Contribute to major open-source projects',
+                        'Build a strong portfolio of web applications'
+                      ].map((item, index) => (
+                        <li key={index} className="flex items-center gap-2 group-hover:translate-x-1 transition-transform duration-300">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#FF9B7B]/60" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative">
+                <div className="absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-[#FF9B7B] to-transparent rounded-full" />
+                <h4 className="text-xl font-semibold text-[#1a1a1a] mb-4 flex items-center gap-3">
+                  <svg className="w-6 h-6 text-[#FF9B7B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                  Skills to Acquire
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="group bg-white/40 backdrop-blur-sm p-4 rounded-xl hover:bg-white/50 transition-all duration-300">
+                    <h5 className="font-medium text-[#1a1a1a] mb-3 flex items-center gap-2">
+                      <svg className="w-5 h-5 text-[#FF9B7B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                      </svg>
+                      Technical Skills
+                    </h5>
+                    <ul className="list-none space-y-2 text-[#1a1a1a]/80">
+                      {[
+                        'Advanced React.js and Node.js',
+                        'AI/ML frameworks (TensorFlow, PyTorch)',
+                        'Cloud architecture and DevOps',
+                        'System design and scalability'
+                      ].map((item, index) => (
+                        <li key={index} className="flex items-center gap-2 group-hover:translate-x-1 transition-transform duration-300">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#FF9B7B]/60" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="group bg-white/40 backdrop-blur-sm p-4 rounded-xl hover:bg-white/50 transition-all duration-300">
+                    <h5 className="font-medium text-[#1a1a1a] mb-3 flex items-center gap-2">
+                      <svg className="w-5 h-5 text-[#FF9B7B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Learning Plan
+                    </h5>
+                    <ul className="list-none space-y-2 text-[#1a1a1a]/80">
+                      {[
+                        'Online courses (Coursera, Udacity)',
+                        'Technical workshops and bootcamps',
+                        'Industry mentorship programs',
+                        'Target completion: Within 2 years'
+                      ].map((item, index) => (
+                        <li key={index} className="flex items-center gap-2 group-hover:translate-x-1 transition-transform duration-300">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#FF9B7B]/60" />
+                          {item}
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>
@@ -425,7 +566,7 @@ export default function Home() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className={`min-h-screen relative flex flex-col items-center justify-start pt-20 pb-8 p-4 overflow-y-auto`}>
+      <section id="projects" className={`min-h-screen relative flex flex-col items-center justify-start pt-28 pb-8 p-4 overflow-y-auto`}>
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-br from-[#E6E6FA] to-[#F8F8FF] opacity-40" />
         </div>
@@ -475,7 +616,7 @@ export default function Home() {
                     className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
-                <div>
+                <div className="relative">
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="text-base sm:text-lg font-bold text-[#1a1a1a] group-hover:text-[#2a2a2a] transition-colors">Qwqcoin</h3>
                     <span className="px-2 py-0.5 rounded-full bg-green-100 text-green-800 text-xs font-medium">Plugin</span>
@@ -486,20 +627,22 @@ export default function Home() {
                   <div className="flex flex-wrap gap-1.5">
                     {['Java', 'Spigot API', 'Game Development'].map((tech) => (
                       <span key={tech} className="px-2 py-1 rounded-full bg-[#1a1a1a]/5 text-[#1a1a1a]/70 text-xs font-medium hover:bg-[#1a1a1a]/10 transition-colors">
-                    {tech}
-                  </span>
-                ))}
+                        {tech}
+                      </span>
+                    ))}
                   </div>
                   <a 
                     href="https://github.com/MAG10d/Qwqcoin" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center mt-2 text-xs text-[#1a1a1a]/60 hover:text-[#1a1a1a] transition-colors group/link"
+                    className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"
                   >
-                    <svg className="w-3 h-3 mr-1 group-hover/link:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                    View on GitHub
+                    <span className="flex items-center text-white font-medium">
+                      <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                      </svg>
+                      View on GitHub
+                    </span>
                   </a>
                 </div>
               </div>
@@ -568,7 +711,7 @@ export default function Home() {
                   />
                 </div>
               </div>
-              <div className="mt-auto">
+              <div className="mt-auto relative">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-base sm:text-lg font-bold text-[#1a1a1a] group-hover:text-[#2a2a2a] transition-colors">Smart Power Box</h3>
                   <span className="px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 text-xs font-medium">Web App</span>
@@ -587,6 +730,19 @@ export default function Home() {
                     </span>
                   ))}
                 </div>
+                <a 
+                  href="https://github.com/immortal-life/smart-power-box" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"
+                >
+                  <span className="flex items-center text-white font-medium">
+                    <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    View on GitHub
+                  </span>
+                </a>
               </div>
             </div>
           </div>
@@ -620,16 +776,15 @@ export default function Home() {
                   </svg>
                   Programming Languages
                 </h3>
-              <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3">
                   {[
                     { name: 'JavaScript', icon: SiJavascript, color: 'bg-[#FFF5E1] text-[#1a1a1a] border-[#FFD7BA]' },
                     { name: 'Python', icon: SiPython, color: 'bg-[#FFE4E1] text-[#1a1a1a] border-[#FFD7BA]' },
                     { name: 'Java', icon: SiJava, color: 'bg-[#FFF5E1] text-[#1a1a1a] border-[#FFD7BA]' },
                     { name: 'C#', icon: SiCsharp, color: 'bg-[#FFE4E1] text-[#1a1a1a] border-[#FFD7BA]' },
                     { name: 'PHP', icon: SiPhp, color: 'bg-[#FFF5E1] text-[#1a1a1a] border-[#FFD7BA]' },
-                    { name: 'HTML', icon: SiHtml5, color: 'bg-[#FFE4E1] text-[#1a1a1a] border-[#FFD7BA]' },
-                    { name: 'CSS', icon: SiCss3, color: 'bg-[#FFF5E1] text-[#1a1a1a] border-[#FFD7BA]' },
-                    { name: 'Solidity', icon: SiSolidity, color: 'bg-[#FFE4E1] text-[#1a1a1a] border-[#FFD7BA]' }
+                    { name: 'Solidity', icon: SiSolidity, color: 'bg-[#FFE4E1] text-[#1a1a1a] border-[#FFD7BA]' },
+                    { name: 'Dart', icon: SiDart, color: 'bg-[#FFF5E1] text-[#1a1a1a] border-[#FFD7BA]' }
                   ].map((tech) => (
                     <span 
                       key={tech.name} 
@@ -649,7 +804,7 @@ export default function Home() {
               <div className="relative bg-white/90 backdrop-blur-sm p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-all duration-500 group-hover:-translate-y-1">
                 <h3 className="text-2xl font-bold text-[#1a1a1a] mb-6 flex items-center gap-3">
                   <svg className="w-6 h-6 text-[#FF9B7B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
                   </svg>
                   Technologies & Tools
                 </h3>
@@ -659,7 +814,10 @@ export default function Home() {
                     <h4 className="text-sm font-medium text-[#1a1a1a]/60 mb-3">Frameworks & Libraries</h4>
                     <div className="flex flex-wrap gap-3">
                       {[
-                        { name: 'Next.js', icon: SiNextdotjs, color: 'bg-[#FFE4E1] text-[#1a1a1a] border-[#FFD7BA]' }
+                        { name: 'Next.js', icon: SiNextdotjs, color: 'bg-[#FFE4E1] text-[#1a1a1a] border-[#FFD7BA]' },
+                        { name: 'Flutter', icon: SiFlutter, color: 'bg-[#FFF5E1] text-[#1a1a1a] border-[#FFD7BA]' },
+                        { name: 'HTML', icon: SiHtml5, color: 'bg-[#FFE4E1] text-[#1a1a1a] border-[#FFD7BA]' },
+                        { name: 'CSS', icon: SiCss3, color: 'bg-[#FFF5E1] text-[#1a1a1a] border-[#FFD7BA]' },
                       ].map((tech) => (
                         <span 
                           key={tech.name} 
@@ -702,13 +860,18 @@ export default function Home() {
                         { name: 'MySQL', icon: SiMysql, color: 'bg-[#FFE4E1] text-[#1a1a1a] border-[#FFD7BA]' },
                         { name: 'SQLite', icon: SiSqlite, color: 'bg-[#FFF5E1] text-[#1a1a1a] border-[#FFD7BA]' },
                         { name: 'Linux', icon: SiLinux, color: 'bg-[#FFE4E1] text-[#1a1a1a] border-[#FFD7BA]' },
-                        { name: 'Android SDK', icon: SiAndroid, color: 'bg-[#FFF5E1] text-[#1a1a1a] border-[#FFD7BA]' }
+                        { name: 'Android SDK', icon: SiAndroid, color: 'bg-[#FFF5E1] text-[#1a1a1a] border-[#FFD7BA]' },
+                        { name: 'Drift', color: 'bg-[#FFE4E1] text-[#1a1a1a] border-[#FFD7BA]', icon: () => (
+                          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V8h2v4z"/>
+                          </svg>
+                        )}
                       ].map((tech) => (
                         <span 
                           key={tech.name} 
                           className={`px-4 py-2 rounded-full ${tech.color} text-sm font-medium border hover:scale-105 transition-all duration-300 cursor-default hover:shadow-sm flex items-center gap-2`}
                         >
-                          <tech.icon className="w-4 h-4" />
+                          {tech.icon && <tech.icon className="w-4 h-4" />}
                           {tech.name}
                   </span>
                 ))}

@@ -53,7 +53,7 @@ export default function Navigation() {
     }
   };
 
-  const navItems = ['Home', 'About', 'Projects', 'Skills'];
+  const navItems = ['Home', 'About', 'Career', 'Projects', 'Skills'];
 
   return (
     <nav 
