@@ -64,6 +64,12 @@ export default function Home() {
       pdf: '/digital_credentials conv 1.png'
     },
     {
+      id: 'nvidia-deep-learning',
+      title: 'Fundamentals of Deep Learning',
+      url: 'https://learn.nvidia.com/courses/course-detail?course_id=course-v1:DLI+C-FX-01+V3',
+      pdf: '/Fundamentals of Deep Learning.png'
+    },
+    {
       id: 'd202ba186a0e',
       title: 'Software Engineer',
       url: 'https://www.hackerrank.com/certificates/d202ba186a0e',
@@ -950,7 +956,12 @@ export default function Home() {
                     <div className="text-[#1a1a1a] text-center mb-2">
                       <h4 className="font-medium text-lg">{cert.title}</h4>
                       <p className="text-sm text-[#1a1a1a]/60">
-                        {cert.id === 'gold-award-2024' ? 'ASK IT x IVE' : 'HackerRank'}
+                        {cert.id === 'gold-award-2024' 
+                          ? 'ASK IT x IVE' 
+                          : cert.id === 'nvidia-deep-learning'
+                            ? 'NVIDIA'
+                            : 'HackerRank'
+                        }
                       </p>
                     </div>
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
