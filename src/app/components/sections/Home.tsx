@@ -3,13 +3,10 @@
 import React from 'react';
 
 interface HomeSectionProps {
-  isScrolling: boolean;
-  setIsScrolling: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrentSection: React.Dispatch<React.SetStateAction<number>>;
-  scrollCooldown: number;
+  scrollToSection: (index: number) => void;
 }
 
-const HomeSection: React.FC<HomeSectionProps> = ({ isScrolling, setIsScrolling, setCurrentSection, scrollCooldown }) => {
+const HomeSection: React.FC<HomeSectionProps> = ({ scrollToSection }) => {
   const sectionClassName = "min-h-screen relative flex flex-col items-center justify-center p-4 glow-bg";
 
   return (
@@ -50,12 +47,7 @@ const HomeSection: React.FC<HomeSectionProps> = ({ isScrolling, setIsScrolling, 
             href="#projects"
             onClick={(e) => {
               e.preventDefault();
-              if (!isScrolling) {
-                setIsScrolling(true);
-                setCurrentSection(1);
-                document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-                setTimeout(() => setIsScrolling(false), scrollCooldown);
-              }
+              scrollToSection(3);
             }}
             className="relative overflow-hidden px-8 py-4 rounded-full bg-gradient-to-r from-[#1a1a1a] to-[#4a4a4a] text-white hover:shadow-lg transition-all duration-300 font-medium group"
           >

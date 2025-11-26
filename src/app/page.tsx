@@ -13,22 +13,15 @@ import { education } from '../data/education';
 import { languages } from '../data/languages';
 
 export default function Home() {
-  const { isScrolling, setIsScrolling, setCurrentSection, scrollCooldown } = useSectionScroll();
+  const { activeSection, scrollToSection } = useSectionScroll();
 
   return (
     <>
       <Navigation
-        isScrolling={isScrolling}
-        setIsScrolling={setIsScrolling}
-        setCurrentSection={setCurrentSection}
-        scrollCooldown={scrollCooldown}
+        activeSection={activeSection}
+        scrollToSection={scrollToSection}
       />
-      <HomeSection
-        isScrolling={isScrolling}
-        setIsScrolling={setIsScrolling}
-        setCurrentSection={setCurrentSection}
-        scrollCooldown={scrollCooldown}
-      />
+      <HomeSection scrollToSection={scrollToSection} />
       <AboutSection />
       <CareerSection />
       <ProjectsSection />
