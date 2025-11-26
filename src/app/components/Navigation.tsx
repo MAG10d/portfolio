@@ -4,28 +4,17 @@
 import { useState } from 'react';
 
 interface NavigationProps {
-  isScrolling: boolean;
-  setIsScrolling: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrentSection: React.Dispatch<React.SetStateAction<number>>;
-  scrollCooldown: number;
   activeSection: string;
+  scrollToSection: (index: number) => void;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ setIsScrolling, setCurrentSection, scrollCooldown, activeSection }) => {
+const Navigation: React.FC<NavigationProps> = ({ activeSection, scrollToSection }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, index: number) => {
     e.preventDefault();
-    const targetSection = document.getElementById(targetId);
-    
-    if (targetSection) {
-      setIsScrolling(true);
-      const sectionIndex = Array.from(document.querySelectorAll('section')).findIndex(sec => sec.id === targetId);
-      setCurrentSection(sectionIndex);
-      targetSection.scrollIntoView({ behavior: 'smooth' });
-      setIsMenuOpen(false);
-      setTimeout(() => setIsScrolling(false), scrollCooldown);
-    }
+    scrollToSection(index);
+    setIsMenuOpen(false);
   };
 
   const navItems = ['Home', 'About', 'Career', 'Projects', 'Skills', 'Awards'];
@@ -38,13 +27,13 @@ const Navigation: React.FC<NavigationProps> = ({ setIsScrolling, setCurrentSecti
       <div className="hidden md:block container mx-auto px-4 py-6">
         <div className="glass rounded-full px-2 py-2 backdrop-blur-sm">
           <ul className="flex items-center justify-center relative">
-            {navItems.map((item) => {
+            {navItems.map((item, index) => {
               const itemId = item.toLowerCase();
               return (
                 <li key={item} className="relative">
                   <a
                     href={`#${itemId}`}
-                    onClick={(e) => handleClick(e, itemId)}
+                    onClick={(e) => handleClick(e, index)}
                     className={`relative px-6 py-2 text-[#1a1a1a] hover:text-[#4a4a4a] transition-all duration-300 block text-sm font-medium group ${
                       activeSection === itemId ? 'text-[#1a1a1a]' : 'text-[#1a1a1a]/70'
                     }`}
@@ -116,13 +105,13 @@ const Navigation: React.FC<NavigationProps> = ({ setIsScrolling, setCurrentSecti
             </div>
             <div className="flex-1 flex items-center justify-center">
               <ul className="flex flex-col items-center justify-center gap-12 py-8 px-6 rounded-3xl moca-glass">
-                {navItems.map((item) => {
+                {navItems.map((item, index) => {
                   const itemId = item.toLowerCase();
                   return (
                     <li key={item} className="relative group">
                       <a
                         href={`#${itemId}`}
-                        onClick={(e) => handleClick(e, itemId)}
+                        onClick={(e) => handleClick(e, index)}
                         className={`text-3xl font-medium transition-all duration-300 ${
                           activeSection === itemId 
                             ? 'text-[#1a1a1a]' 

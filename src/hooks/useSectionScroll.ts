@@ -4,7 +4,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
 export const useSectionScroll = () => {
-  const [currentSection, setCurrentSection] = useState(0);
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolling, setIsScrolling] = useState(false);
   const scrollCooldown = 500;
@@ -14,7 +13,6 @@ export const useSectionScroll = () => {
     if (isScrolling || index < 0 || index >= sections.length) return;
 
     setIsScrolling(true);
-    setCurrentSection(index);
 
     const targetSection = sections[index];
     targetSection.scrollIntoView({
@@ -36,8 +34,6 @@ export const useSectionScroll = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setActiveSection(entry.target.id);
-            const sectionIndex = Array.from(sections).findIndex(sec => sec.id === entry.target.id);
-            setCurrentSection(sectionIndex);
           }
         });
       },
@@ -51,5 +47,5 @@ export const useSectionScroll = () => {
     };
   }, []);
 
-  return { isScrolling, setIsScrolling, setCurrentSection, scrollCooldown, activeSection };
+  return { isScrolling, setIsScrolling, scrollCooldown, activeSection, scrollToSection };
 };
