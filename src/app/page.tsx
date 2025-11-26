@@ -13,7 +13,7 @@ import { education } from '../data/education';
 import { languages } from '../data/languages';
 
 export default function Home() {
-  const { isScrolling, setIsScrolling, setCurrentSection, scrollCooldown } = useSectionScroll();
+  const { isScrolling, setIsScrolling, setCurrentSection, scrollCooldown, activeSection } = useSectionScroll();
 
   return (
     <>
@@ -22,6 +22,7 @@ export default function Home() {
         setIsScrolling={setIsScrolling}
         setCurrentSection={setCurrentSection}
         scrollCooldown={scrollCooldown}
+        activeSection={activeSection}
       />
       <HomeSection
         isScrolling={isScrolling}
