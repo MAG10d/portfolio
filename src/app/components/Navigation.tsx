@@ -2,7 +2,14 @@
 
 import { useState, useEffect } from 'react';
 
-export default function Navigation() {
+interface NavigationProps {
+  isScrolling: boolean;
+  setIsScrolling: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentSection: React.Dispatch<React.SetStateAction<number>>;
+  scrollCooldown: number;
+}
+
+const Navigation: React.FC<NavigationProps> = ({ setIsScrolling, setCurrentSection, scrollCooldown }) => {
   const [activeSection, setActiveSection] = useState('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
@@ -17,7 +24,7 @@ export default function Navigation() {
 
       // 處理當前部分高亮
       const sections = document.querySelectorAll('section');
-      let currentSection = '';
+      let currentSectionId = '';
       
       sections.forEach((section) => {
         const rect = section.getBoundingClientRect();
@@ -28,12 +35,12 @@ export default function Navigation() {
         const visibilityRatio = visibleHeight / sectionHeight;
         
         if (visibilityRatio > 0.5) {
-          currentSection = section.id;
+          currentSectionId = section.id;
         }
       });
       
-      if (currentSection) {
-        setActiveSection(currentSection);
+      if (currentSectionId) {
+        setActiveSection(currentSectionId);
       }
     };
 
@@ -47,13 +54,17 @@ export default function Navigation() {
     const targetSection = document.getElementById(targetId);
     
     if (targetSection) {
+      setIsScrolling(true);
+      const sectionIndex = Array.from(document.querySelectorAll('section')).findIndex(sec => sec.id === targetId);
+      setCurrentSection(sectionIndex);
       targetSection.scrollIntoView({ behavior: 'smooth' });
       setActiveSection(targetId);
       setIsMenuOpen(false);
+      setTimeout(() => setIsScrolling(false), scrollCooldown);
     }
   };
 
-  const navItems = ['Home', 'About', 'Career', 'Projects', 'Skills'];
+  const navItems = ['Home', 'About', 'Career', 'Projects', 'Skills', 'Awards'];
 
   return (
     <nav 
@@ -194,3 +205,5 @@ export default function Navigation() {
     </nav>
   );
 }
+
+export default Navigation;
