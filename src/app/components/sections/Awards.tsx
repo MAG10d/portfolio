@@ -1,7 +1,11 @@
 "use client";
 
 import React from 'react';
-import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Download, Eye, Award } from 'lucide-react';
+import SectionWrapper from '../SectionWrapper';
 
 interface Certificate {
   id: string;
@@ -32,152 +36,170 @@ interface AwardsSectionProps {
 }
 
 const AwardsSection: React.FC<AwardsSectionProps> = ({ certificates, education, languages }) => {
-  const sectionClassName = "min-h-screen relative flex flex-col items-center justify-center p-4 glow-bg";
-
   return (
-    <section id="awards" className={sectionClassName}>
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#FFF5E1] to-[#FFE4E1] opacity-40" />
-        <div className="glow-orb w-64 sm:w-96 h-64 sm:h-96 top-[-20%] right-[-10%] bg-[#FFE4E1]" />
-        <div className="glow-orb w-64 sm:w-96 h-64 sm:h-96 bottom-[-20%] left-[-10%] bg-[#FFF5E1]" />
+    <SectionWrapper id="awards">
+      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute bottom-[10%] left-[-10%] w-80 h-80 bg-pink-200/30 rounded-full blur-[80px]" />
       </div>
 
-      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold text-[#1a1a1a] mb-4">
-            <span className="relative inline-block">
-              Education & Languages
-              <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[#FF9B7B] to-transparent rounded-full" />
-            </span>
-          </h2>
+      <div className="text-center mb-12">
+        <motion.div
+           initial={{ opacity: 0, y: 20 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true }}
+           transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-3xl sm:text-5xl font-bold mb-4">Qualifications</h2>
+          <p className="text-muted-foreground text-lg">Education, languages, and certifications</p>
+        </motion.div>
+      </div>
+
+      <div className="max-w-6xl mx-auto w-full space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Education */}
+          <motion.div
+             initial={{ opacity: 0, x: -20 }}
+             whileInView={{ opacity: 1, x: 0 }}
+             viewport={{ once: true }}
+             transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <Card className="h-full">
+              <CardHeader>
+                <CardTitle className="text-2xl">Education</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {education.map((edu) => (
+                  <div key={edu.id} className="border-l-2 border-primary pl-4 py-1">
+                     <h4 className="font-semibold text-lg">{edu.title}</h4>
+                     <p className="text-sm text-muted-foreground">{edu.organization}</p>
+                     <p className="text-xs text-muted-foreground/80 mb-2">{edu.year}</p>
+                     <p className="text-sm">{edu.description}</p>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Languages */}
+           <motion.div
+             initial={{ opacity: 0, x: 20 }}
+             whileInView={{ opacity: 1, x: 0 }}
+             viewport={{ once: true }}
+             transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <Card className="h-full">
+              <CardHeader>
+                <CardTitle className="text-2xl">Languages</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                   {languages.map((lang) => (
+                     <div key={lang.name} className="flex items-center p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
+                        <span className="text-2xl mr-3">{lang.icon}</span>
+                        <div>
+                           <p className="font-medium">{lang.name}</p>
+                           {/* Assuming level might be added later or is implied */}
+                        </div>
+                     </div>
+                   ))}
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
 
-        <div className="space-y-12">
-          {/* Education */}
-          <div className="bg-white/60 backdrop-blur-sm p-8 rounded-xl">
-            <div className="flex flex-col lg:flex-row gap-8">
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold text-[#1a1a1a] mb-6">Education</h3>
-                <div className="space-y-4">
-                  <h4 className="text-xl font-semibold text-[#1a1a1a]">{education[0].title}</h4>
-                  <p className="text-[#1a1a1a]/70">{education[0].organization}</p>
-                  <p className="text-[#1a1a1a]/60">{education[0].year}</p>
-                  <p className="text-[#1a1a1a]/80 mt-4">{education[0].description}</p>
-                </div>
-              </div>
-
-              {/* Languages Grid */}
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold text-[#1a1a1a] mb-6">Languages</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {languages.map((lang) => (
-                    <div key={lang.name} className="p-4 rounded-lg bg-white/50 hover:bg-white/80 transition-all duration-300">
-                      <div className="flex items-center gap-3">
-                        <span className="text-2xl">{lang.icon}</span>
-                        <div>
-                          <h4 className="font-medium text-[#1a1a1a]">{lang.name}</h4>
-                        </div>
-                      </div>
-                    </div>
+        {/* Certifications */}
+         <motion.div
+             initial={{ opacity: 0, y: 20 }}
+             whileInView={{ opacity: 1, y: 0 }}
+             viewport={{ once: true }}
+             transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl flex items-center gap-2">
+                  <Award className="w-6 h-6 text-primary" />
+                  Certifications
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {certificates.map((cert) => (
+                    <a
+                      key={cert.id}
+                      href={cert.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group block"
+                    >
+                      <Card className="h-full overflow-hidden hover:shadow-md transition-all duration-300 border-dashed hover:border-solid relative">
+                         <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center">
+                            <ExternalLinkIcon className="w-8 h-8 text-foreground" />
+                         </div>
+                         <CardHeader className="p-4 pb-2">
+                            <CardTitle className="text-base font-medium line-clamp-2">{cert.title}</CardTitle>
+                            <CardDescription className="text-xs">
+                              {cert.id === 'gold-award-2024'
+                                ? 'ASK IT x IVE'
+                                : cert.id === 'nvidia-deep-learning'
+                                  ? 'NVIDIA'
+                                  : 'HackerRank'
+                              }
+                            </CardDescription>
+                         </CardHeader>
+                      </Card>
+                    </a>
                   ))}
                 </div>
-              </div>
-            </div>
-          </div>
+              </CardContent>
+            </Card>
+        </motion.div>
 
-          {/* Certifications */}
-          <div className="bg-white/60 backdrop-blur-sm p-6 rounded-xl">
-            <h3 className="text-2xl font-bold text-[#1a1a1a] mb-6">Certifications</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {certificates.map((cert) => (
-                <a
-                  key={cert.id}
-                  href={cert.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative p-4 rounded-lg bg-white/50 hover:bg-white/80 transition-all duration-300"
-                >
-                  <div className="text-[#1a1a1a] text-center mb-2">
-                    <h4 className="font-medium text-lg">{cert.title}</h4>
-                    <p className="text-sm text-[#1a1a1a]/60">
-                      {cert.id === 'gold-award-2024'
-                        ? 'ASK IT x IVE'
-                        : cert.id === 'nvidia-deep-learning'
-                          ? 'NVIDIA'
-                          : 'HackerRank'
-                      }
-                    </p>
-                  </div>
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="relative w-full h-full">
-                      <Image
-                        src={cert.pdf}
-                        alt={cert.title}
-                        fill
-                        className="object-contain rounded-lg"
-                      />
-                    </div>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Resume Buttons */}
-          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-4">
-            <a
-              href="/LauKwanTingResume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-white/60 backdrop-blur-sm text-[#1a1a1a] hover:scale-105 hover:shadow-lg transition-all duration-300 font-medium group"
-            >
-              View Resume
-              <svg
-                className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                />
-              </svg>
-            </a>
-
-            <a
-              href="/LauKwanTingResume.pdf"
-              download
-              className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-gradient-to-r from-[#1a1a1a] to-[#4a4a4a] text-white hover:scale-105 hover:shadow-lg transition-all duration-300 font-medium group"
-            >
-              Download Resume
-              <svg
-                className="ml-2 w-5 h-5 group-hover:translate-y-1 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                />
-              </svg>
-            </a>
-          </div>
-        </div>
+        {/* Resume Actions */}
+        <motion.div
+           initial={{ opacity: 0, y: 20 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true }}
+           transition={{ duration: 0.5, delay: 0.5 }}
+           className="flex flex-col sm:flex-row justify-center gap-4 pt-8"
+        >
+          <Button variant="outline" size="lg" className="rounded-full gap-2" asChild>
+             <a href="/LauKwanTingResume.pdf" target="_blank" rel="noopener noreferrer">
+               <Eye className="w-4 h-4" />
+               View Resume
+             </a>
+          </Button>
+          <Button size="lg" className="rounded-full gap-2" asChild>
+             <a href="/LauKwanTingResume.pdf" download>
+               <Download className="w-4 h-4" />
+               Download Resume
+             </a>
+          </Button>
+        </motion.div>
       </div>
-    </section>
+    </SectionWrapper>
   );
 };
+
+function ExternalLinkIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
+  )
+}
 
 export default AwardsSection;
