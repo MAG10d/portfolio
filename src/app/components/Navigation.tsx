@@ -1,158 +1,155 @@
-
 "use client";
 
-import { useState } from 'react';
+import * as React from "react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X, ArrowUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-interface NavigationProps {
-  activeSection: string;
-  scrollToSection: (index: number) => void;
-}
+const navItems = [
+  { name: 'Home', id: 'home' },
+  { name: 'About', id: 'about' },
+  { name: 'Career', id: 'career' },
+  { name: 'Projects', id: 'projects' },
+  { name: 'Skills', id: 'skills' },
+  { name: 'Awards', id: 'awards' },
+];
 
-const Navigation: React.FC<NavigationProps> = ({ activeSection, scrollToSection }) => {
+export default function Navigation() {
+  const [activeSection, setActiveSection] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, index: number) => {
-    e.preventDefault();
-    scrollToSection(index);
+  // Handle active section detection
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.3 } // 30% visibility to trigger
+    );
+
+    navItems.forEach((item) => {
+      const element = document.getElementById(item.id);
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Handle scroll state for navbar styling
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToSection = (id: string) => {
     setIsMenuOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
-  const navItems = ['Home', 'About', 'Career', 'Projects', 'Skills', 'Awards'];
-
   return (
-    <nav 
-      className={`fixed w-full transition-transform duration-300 translate-y-0`}
-    >
-      {/* 桌面版導航 */}
-      <div className="hidden md:block container mx-auto px-4 py-6">
-        <div className="glass rounded-full px-2 py-2 backdrop-blur-sm">
-          <ul className="flex items-center justify-center relative">
-            {navItems.map((item, index) => {
-              const itemId = item.toLowerCase();
-              return (
-                <li key={item} className="relative">
-                  <a
-                    href={`#${itemId}`}
-                    onClick={(e) => handleClick(e, index)}
-                    className={`relative px-6 py-2 text-[#1a1a1a] hover:text-[#4a4a4a] transition-all duration-300 block text-sm font-medium group ${
-                      activeSection === itemId ? 'text-[#1a1a1a]' : 'text-[#1a1a1a]/70'
-                    }`}
-                  >
-                    {item}
-                    <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#1a1a1a] to-[#4a4a4a] transform transition-transform duration-300 ${
-                      activeSection === itemId ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                    }`} />
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </div>
+    <>
+      <nav
+        className={cn(
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 py-4 md:py-6",
+          scrolled ? "bg-background/80 backdrop-blur-md border-b shadow-sm py-3 md:py-4" : "bg-transparent"
+        )}
+      >
+        <div className="max-w-7xl mx-auto flex items-center justify-between md:justify-center">
 
-      {/* 手機版導航 */}
-      <div className="md:hidden">
-        {/* 漢堡菜單按鈕 */}
-        <div className="fixed top-6 right-6 z-50">
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="w-12 h-12 glass rounded-full flex items-center justify-center shadow-lg"
-            aria-label="Toggle menu"
-          >
-            <div className="w-6 h-5 relative flex items-center justify-center">
-              <span className={`absolute w-full h-0.5 bg-[#1a1a1a] transform transition-all duration-300 ${
-                isMenuOpen ? 'rotate-45' : '-translate-y-2'
-              }`} />
-              <span className={`absolute w-full h-0.5 bg-[#1a1a1a] transition-opacity duration-300 ${
-                isMenuOpen ? 'opacity-0' : 'opacity-100'
-              }`} />
-              <span className={`absolute w-full h-0.5 bg-[#1a1a1a] transform transition-all duration-300 ${
-                isMenuOpen ? '-rotate-45' : 'translate-y-2'
-              }`} />
-            </div>
-          </button>
-        </div>
+          {/* Mobile Menu Button */}
+          <div className="md:hidden ml-auto">
+             <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(true)}>
+                <Menu className="w-6 h-6" />
+             </Button>
+          </div>
 
-        {/* 手機版菜單 */}
-        <div 
-          className={`fixed inset-0 transform transition-all duration-500 ${
-            isMenuOpen 
-              ? 'translate-x-0 moca-glass' 
-              : 'translate-x-full bg-transparent'
-          }`}
-        >
-          <div className="flex flex-col h-full">
-            <div className="flex justify-end px-6 py-6">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-1 bg-background/50 backdrop-blur-sm px-4 py-2 rounded-full border shadow-sm">
+            {navItems.map((item) => (
               <button
-                onClick={() => setIsMenuOpen(false)}
-                className="w-12 h-12 moca-glass rounded-full flex items-center justify-center shadow-lg"
-                aria-label="Close menu"
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className={cn(
+                  "relative px-4 py-2 text-sm font-medium transition-colors hover:text-primary rounded-full",
+                  activeSection === item.id ? "text-primary bg-accent" : "text-muted-foreground"
+                )}
               >
-                <svg 
-                  className="w-6 h-6 text-[#1a1a1a]" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M6 18L18 6M6 6l12 12"
+                {item.name}
+                {activeSection === item.id && (
+                  <motion.div
+                    layoutId="activeSection"
+                    className="absolute inset-0 bg-accent rounded-full -z-10"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
-                </svg>
+                )}
               </button>
-            </div>
-            <div className="flex-1 flex items-center justify-center">
-              <ul className="flex flex-col items-center justify-center gap-12 py-8 px-6 rounded-3xl moca-glass">
-                {navItems.map((item, index) => {
-                  const itemId = item.toLowerCase();
-                  return (
-                    <li key={item} className="relative group">
-                      <a
-                        href={`#${itemId}`}
-                        onClick={(e) => handleClick(e, index)}
-                        className={`text-3xl font-medium transition-all duration-300 ${
-                          activeSection === itemId 
-                            ? 'text-[#1a1a1a]' 
-                            : 'text-[#1a1a1a]/70 hover:text-[#1a1a1a]'
-                        }`}
-                      >
-                        {item}
-                      </a>
-                      <span className={`block h-0.5 mt-2 bg-gradient-to-r from-[#1a1a1a] to-transparent transform origin-left transition-transform duration-300 ${
-                        activeSection === itemId ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-75'
-                      }`} />
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+            ))}
           </div>
         </div>
-      </div>
+      </nav>
 
-      {/* 回到頂部按鈕 */}
-      <button
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className={`fixed bottom-6 right-6 w-12 h-12 glass rounded-full flex items-center justify-center shadow-lg transition-all duration-300 opacity-100 translate-y-0`}
-      >
-        <svg 
-          className="w-6 h-6 text-[#1a1a1a]" 
-          fill="none" 
-          stroke="currentColor" 
-          viewBox="0 0 24 24"
-        >
-          <path 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            strokeWidth={2} 
-            d="M5 10l7-7m0 0l7 7m-7-7v18"
-          />
-        </svg>
-      </button>
-    </nav>
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm md:hidden"
+          >
+             <div className="flex flex-col h-full">
+                <div className="flex justify-end p-4">
+                   <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(false)}>
+                      <X className="w-6 h-6" />
+                   </Button>
+                </div>
+                <div className="flex-1 flex flex-col items-center justify-center gap-8">
+                   {navItems.map((item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => scrollToSection(item.id)}
+                        className={cn(
+                          "text-2xl font-semibold transition-colors",
+                          activeSection === item.id ? "text-primary" : "text-muted-foreground hover:text-primary"
+                        )}
+                      >
+                         {item.name}
+                      </button>
+                   ))}
+                </div>
+             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Back to Top Button */}
+      <AnimatePresence>
+        {scrolled && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="fixed bottom-6 right-6 z-40 p-3 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 transition-colors"
+          >
+            <ArrowUp className="w-5 h-5" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
-
-export default Navigation;

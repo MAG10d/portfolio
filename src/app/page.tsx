@@ -1,6 +1,5 @@
 "use client";
 
-import { useSectionScroll } from '../hooks/useSectionScroll';
 import HomeSection from './components/sections/Home';
 import AboutSection from './components/sections/About';
 import CareerSection from './components/sections/Career';
@@ -13,15 +12,17 @@ import { education } from '../data/education';
 import { languages } from '../data/languages';
 
 export default function Home() {
-  const { activeSection, scrollToSection } = useSectionScroll();
+  // Simple scroll function passed to HomeSection for the CTA button
+  // In a real app we might just use an anchor tag or a global context, but this is fine.
+  const scrollToProjects = () => {
+    const el = document.getElementById('projects');
+    if(el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <>
-      <Navigation
-        activeSection={activeSection}
-        scrollToSection={scrollToSection}
-      />
-      <HomeSection scrollToSection={scrollToSection} />
+    <main className="min-h-screen bg-background text-foreground antialiased selection:bg-primary/20">
+      <Navigation />
+      <HomeSection scrollToSection={scrollToProjects} />
       <AboutSection />
       <CareerSection />
       <ProjectsSection />
@@ -31,6 +32,6 @@ export default function Home() {
         education={education}
         languages={languages}
       />
-    </>
+    </main>
   );
 }

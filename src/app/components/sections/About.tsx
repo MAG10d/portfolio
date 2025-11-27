@@ -1,41 +1,50 @@
 "use client";
 
 import React from 'react';
+import { motion } from 'framer-motion';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { User, Terminal } from 'lucide-react';
+import SectionWrapper from '../SectionWrapper';
 
 const AboutSection = () => {
-  const sectionClassName = "min-h-screen relative flex flex-col items-center justify-center p-4 glow-bg pt-28";
-
   return (
-    <section id="about" className={sectionClassName}>
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#E6E6FA] to-[#F8F8FF] opacity-40" />
-        <div className="glow-orb w-64 sm:w-96 h-64 sm:h-96 top-[-20%] left-[-10%] bg-[#FFD7BA]" />
-        <div className="glow-orb w-64 sm:w-96 h-64 sm:h-96 bottom-[-20%] right-[-10%] bg-[#FFE4E1]" />
+    <SectionWrapper id="about">
+      {/* Background Orbs */}
+      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+         <div className="absolute top-[20%] left-[-10%] w-64 h-64 bg-indigo-200/30 rounded-full blur-[80px]" />
+         <div className="absolute bottom-[20%] right-[-10%] w-64 h-64 bg-pink-200/30 rounded-full blur-[80px]" />
       </div>
 
-      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold text-[#1a1a1a] mb-4">
-            <span className="relative inline-block">
-              About Me
-              <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[#FF9B7B] to-transparent rounded-full" />
-            </span>
-          </h2>
-          <p className="text-lg sm:text-xl text-[#1a1a1a]/80 max-w-3xl mx-auto">
-            Passionate software engineering student with a focus on creating innovative solutions
+      <div className="text-center mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-3xl sm:text-5xl font-bold mb-4">About Me</h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+             Passionate software engineering student with a focus on creating innovative solutions
           </p>
-        </div>
+        </motion.div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Personal Introduction */}
-          <div className="bg-white/60 backdrop-blur-sm p-6 rounded-2xl hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-            <h3 className="text-2xl font-bold text-[#1a1a1a] mb-4 flex items-center gap-3">
-              <svg className="w-6 h-6 text-[#FF9B7B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-              Self Introduction
-            </h3>
-            <div className="space-y-4 text-[#1a1a1a]/80">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl w-full mx-auto">
+        {/* Self Introduction */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <Card className="h-full hover:shadow-lg transition-shadow duration-300">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-2xl">
+                <User className="w-6 h-6 text-primary" />
+                Who I Am
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
                 Hi, I&apos;m Lau Kwan Ting, a dedicated software engineering student at HKIIT. My journey in technology began with a fascination for problem-solving and creating impactful solutions.
               </p>
@@ -45,49 +54,55 @@ const AboutSection = () => {
               <p>
                 Outside of coding, I&apos;m an avid learner who enjoys exploring new technologies and contributing to open-source projects. I believe in the power of technology to create positive change in the world.
               </p>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
+        </motion.div>
 
-          {/* Personal Competency and Artifacts */}
-          <div className="bg-white/60 backdrop-blur-sm p-6 rounded-2xl hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-            <h3 className="text-2xl font-bold text-[#1a1a1a] mb-4 flex items-center gap-3">
-              <svg className="w-6 h-6 text-[#FF9B7B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-              Personal Competency
-            </h3>
-            <div className="space-y-6">
+        {/* Competencies */}
+        <motion.div
+           initial={{ opacity: 0, x: 20 }}
+           whileInView={{ opacity: 1, x: 0 }}
+           viewport={{ once: true }}
+           transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <Card className="h-full hover:shadow-lg transition-shadow duration-300">
+             <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-2xl">
+                <Terminal className="w-6 h-6 text-primary" />
+                Competencies
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
               <div>
-                <h4 className="text-lg font-semibold text-[#1a1a1a] mb-2">Key Competencies</h4>
-                <ul className="list-disc list-inside space-y-2 text-[#1a1a1a]/80">
+                <h4 className="text-base font-semibold mb-2 flex items-center gap-2">
+                   <span className="w-2 h-2 rounded-full bg-blue-400" />
+                   Key Skills
+                </h4>
+                <ul className="text-muted-foreground space-y-1 ml-4">
                   <li>Full-stack Web Development</li>
                   <li>AI and Machine Learning</li>
                   <li>Game Development</li>
                   <li>Database Management</li>
                 </ul>
               </div>
+
               <div>
-                <h4 className="text-lg font-semibold text-[#1a1a1a] mb-2">Evidence and Achievements</h4>
-                <ul className="list-disc list-inside space-y-2 text-[#1a1a1a]/80">
+                 <h4 className="text-base font-semibold mb-2 flex items-center gap-2">
+                   <span className="w-2 h-2 rounded-full bg-yellow-400" />
+                   Achievements
+                </h4>
+                <ul className="text-muted-foreground space-y-1 ml-4">
                   <li>Gold Award in Project Orion Hackathon 2024</li>
-                  <li>HackerRank Certifications in Software Engineering</li>
-                  <li>Developed Qwqcoin - A Minecraft Virtual Currency System</li>
-                  <li>Created Smart Power Box Management System</li>
+                  <li>HackerRank Certifications</li>
+                  <li>Creator of Qwqcoin Plugin</li>
+                  <li>Smart Power Box System Developer</li>
                 </ul>
               </div>
-              <div>
-                <h4 className="text-lg font-semibold text-[#1a1a1a] mb-2">Activities and Competitions</h4>
-                <ul className="list-disc list-inside space-y-2 text-[#1a1a1a]/80">
-                  <li>Participated in ASK IT x IVE Summer Hackathon 2024</li>
-                  <li>Active contributor to open-source projects</li>
-                  <li>Regular participant in coding competitions</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
-    </section>
+    </SectionWrapper>
   );
 };
 
